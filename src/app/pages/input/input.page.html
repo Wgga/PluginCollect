@@ -1,0 +1,65 @@
+<ion-header>
+	<div class="title_con">
+		<!-- 20211220:去除fixbtn类名即去除fixed样式，解决收起键盘页面留白 -->
+		<ion-back-button text="" defaultHref="/tabs/home" (click)="goBack()" class='iconfont back'></ion-back-button>
+		<div class="tit fontwg5">input</div>
+		<div class="more_func"></div>
+	</div>
+</ion-header>
+
+<ion-content #content (click)="closepopup($event)">
+	selheight: {{ editordata.selheight }}
+	placeholderH: {{ placeholderH }}
+	keyboardH: {{ keyboardH }}
+	<div *ngFor="let x of contentlist">
+		<div class="html_con">
+			<span class="bubble_arrow"></span>
+			<div class="bubble_content" [compilekefuhtml]="x.content"></div>
+		</div>
+	</div>
+</ion-content>
+
+<ion-footer align-title="left" class="bar-light bar-footer-gentie" resize-foot-bar keyboard-attach>
+	<div class="footer_con">
+		<div class="textarea_footer new_textarea_footer">
+			<div class="footer_morebtn btn_left">
+				<i class="iconfont iconemoticon1" (click)="focus('button',1)" *ngIf="!editordata.showemo"></i>
+				<i class="iconfont iconkeyboard" (click)="focus('input')" *ngIf="editordata.showemo"></i>
+			</div>
+			<div class="rj-footer-input">
+				<div id="editor_con" #editor></div>
+			</div>
+			<div class="footer_morebtn" (click)="focus('button',0)">
+				<i class="iconfont iconmorebtn" [ngClass]="{'showmore':editordata.showbtn}"></i>
+			</div>
+			<div class="footer_sendbtn">
+				<div class="publish_icon_box" [ngClass]="{'focus':send_content}" (click)="publish()">发送</div>
+			</div>
+		</div>
+		<div class="footer_keyboard" [ngStyle]="{'height':placeholderH+'px'}"></div>
+		<div class="footer_more_con" [ngStyle]="{'height':editordata.selheight+'px'}">
+			<div class="btn_con" [ngClass]="{'hidebtncon':!editordata.showbtn}">
+				<div *ngFor="let x of btnlist;index as i" class="morebtn_con">
+					<span class="morebtn_icon" (click)="clickmorebtn(x)">
+						<i class="iconfont {{x.icon}}"></i>
+					</span>
+					<span class="morebtn_text">{{x.text}}</span>
+				</div>
+			</div>
+			<div class="btn_con emo_con" [ngClass]="{'hidebtncon':!editordata.showemo}">
+				<div class="emo_btn">
+					<div *ngFor="let x of editordata.emolist" class="morebtn_con emoticon_icon"
+						(click)="setinputval('emoticon',x)">
+						<img class="emoticon" src="{{'http://192.168.2.54/'+x.emoji_url}}">
+					</div>
+				</div>
+			</div>
+			<div class="send_btn" [ngClass]="{'hidebtncon':!editordata.showemo}">
+				<div class="backspace" (click)="setinputval('backspace')">
+					<i class="iconfont iconbackspace"></i>
+				</div>
+				<div class="publish_icon_box" [ngClass]="{'focus':send_content}" (click)="publish()">发送</div>
+			</div>
+		</div>
+	</div>
+</ion-footer>

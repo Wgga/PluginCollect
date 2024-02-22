@@ -1,0 +1,301 @@
+ion-header {
+	height: 71px;
+}
+
+.title_con {
+	height: 71px;
+	height: calc(71px + env(safe-area-inset-top)*0.3) !important;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	background-color: #fff;
+	color: #4d4d4d;
+
+	.back {
+		color: #616161;
+		font-size: 20px;
+		margin-top: 0 !important;
+	}
+
+	.more_func {
+		width: 44px;
+		height: 44px;
+		margin-top: 0 !important;
+	}
+
+	.tit {
+		height: 44px;
+		text-align: center;
+		line-height: 44px;
+		font-size: 16.5px;
+		//20211230 shibo:任务8510:标题超出屏幕
+		width: 60%;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: pre;
+	}
+}
+
+ion-content {
+	--background: #fff;
+}
+
+.html_con {
+	padding: 7px;
+	overflow: auto;
+	position: relative;
+
+	.bubble_arrow {
+		display: inline-block;
+		position: absolute;
+		width: 0;
+		height: 0;
+		top: 14px;
+		right: 3px;
+		border-width: 8px 10px;
+		border-style: solid;
+		border-color: transparent transparent transparent #d2d7fc;
+	}
+
+	.bubble_content {
+		float: right;
+		margin: 0 16px 0 0;
+		background-color: #d2d7fc;
+		padding: 6px 12px;
+		line-height: 26px;
+		max-width: 80%;
+		font-size: 14px;
+		border-radius: 5px;
+		color: #2e2e2e;
+	}
+}
+
+ion-header::after,
+ion-footer::before {
+	content: none;
+}
+
+.footer_con {
+	.publish_icon_box {
+		width: auto;
+		position: relative;
+		height: auto;
+		background-color: #e0e0e0;
+		background-image: none;
+		color: #fff;
+		padding: 5px 16px;
+		border-radius: 20px;
+		font-size: 14px;
+	}
+
+	.focus {
+		background-color: transparent;
+		background-image: linear-gradient(90deg, #81b4ec 0%, #9ba6f5 100%);
+	}
+}
+
+.textarea_footer.flexend {
+	align-items: flex-end;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	overflow: hidden;
+}
+
+.textarea_footer {
+	position: relative;
+	z-index: 200;
+	min-height: 58px;
+	width: 100%;
+	border-top: 1px solid #f5f5f5;
+	background-color: #f6f6f6;
+	padding: 15px 13px 10px 16px;
+	display: flex;
+	align-items: flex-end;
+	margin-bottom: 0;
+
+	.footer_morebtn {
+		width: 40px;
+		height: 40px;
+		background-color: #fff;
+		border-radius: 8px;
+		margin-left: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.iconfont {
+			font-size: 24px;
+			color: #616161;
+			transform: rotate(0deg);
+			transition: transform 400ms ease;
+		}
+	}
+
+	.footer_morebtn.btn_left {
+		margin-left: 0;
+		margin-right: 8px;
+	}
+
+	.rj-footer-input {
+		flex: 1;
+		padding-left: 0;
+		min-width: 0;
+		min-height: 40px;
+		max-height: 100px;
+		background-color: #fff;
+		border-radius: 8px;
+		position: relative;
+		overflow-y: scroll;
+	}
+
+	.footer_sendbtn {
+		margin-left: 8px;
+	}
+
+	.publish_icon_box {
+		margin-bottom: 4px;
+	}
+
+	.iconmorebtn.showmore {
+		transform: rotate(45deg);
+	}
+
+
+	.publish_icon {
+		height: 100%;
+		width: 49px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		span {
+			color: #adadad;
+		}
+	}
+}
+
+.footer_keyboard {
+	background-color: #f6f6f6;
+	transition: all 300ms ease;
+}
+
+.footer_more_con {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #f6f6f6;
+	transition: all 300ms ease;
+
+	.btn_con {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		padding: 5px 23px 20px;
+		overflow-y: scroll;
+		background-color: #f6f6f6;
+	}
+
+	.emo_con {
+		padding: 5px 11px 70px;
+	}
+
+	.btn_con .emo_btn {
+		display: grid;
+		width: 100%;
+		justify-content: space-between;
+		grid-template-columns: repeat(auto-fill, 45px);
+	}
+
+	.btn_con.hidebtncon {
+		display: none;
+	}
+
+	.morebtn_con {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		max-width: 56px;
+		width: calc(100% - 30px);
+		margin: 15px 15px 0;
+	}
+
+	.morebtn_icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 50px;
+		height: 50px;
+		background-color: var(--toolbarbg);
+		margin-bottom: 15px;
+		border-radius: 8px;
+
+		.iconfont {
+			font-size: 28px;
+			color: #666;
+		}
+
+		.iconcamera {
+			font-size: 31px;
+		}
+
+	}
+
+	.morebtn_con.emoticon_icon {
+		max-width: 41.25px;
+		width: 100%;
+		height: 30px;
+		margin: 15px auto 0;
+		display: block;
+	}
+
+	.morebtn_text {
+		color: #616161;
+		font-size: 14px;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.emoticon {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.send_btn.hidebtncon {
+		display: none;
+	}
+
+	.send_btn {
+		position: absolute;
+		right: 0;
+		bottom: -1px;
+		background-image: linear-gradient(to bottom, rgba(246, 246, 246, 0.2) 0, #f6f6f6 30%);
+		display: flex;
+		align-items: center;
+		transform: translateY(0);
+		transition: all 400ms ease;
+		padding: 25px 12px 25px;
+
+		.backspace {
+			padding: 0 14.75px;
+			border-radius: 20px;
+			border: 1px solid #e0e0e0;
+			background-color: #fff;
+			display: flex;
+			align-items: center;
+		}
+
+		.iconbackspace {
+			font-size: 19px;
+			color: #616161;
+		}
+
+		.publish_icon_box {
+			margin-left: 8px;
+			margin-bottom: 0;
+		}
+	}
+}
