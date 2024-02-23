@@ -34,6 +34,8 @@ export class InputPage {
 		{ id: 3, icon: 'iconcamera', text: '拍照' },
 		// {id: 4, icon: 'iconshopcart', text: '购物车'}
 	];
+	// 状态
+	cansend: boolean = false;
 
 	constructor(
 		private navCtrl: NavController,
@@ -64,6 +66,11 @@ export class InputPage {
 		this.quill.on("text-change", () => {
 			setTimeout(()=>{
 				this.send_content = this.quill.getSemanticHTML();
+				if (this.quill.getLength() > 1 && !this.cansend){
+					this.cansend = true;
+				}else if(this.quill.getLength() == 1){
+					this.cansend = false;
+				}
 			},100)
 		})
 		// 初始化编辑器数据
@@ -77,11 +84,8 @@ export class InputPage {
 		// 获取编辑器数据
 		this.editordata = this.editors.getEditordata(this.classname);
 		// 初始化键盘高度
-		if ((window as any).Keyboard
-			&& typeof (window as any).Keyboard.SoftInputMode === 'function'
-			&& typeof (window as any).Keyboard.openHeightProvider === 'function') {
+		if ((window as any).Keyboard && typeof (window as any).Keyboard.openHeightProvider === 'function') {
 			(window as any).Keyboard.openHeightProvider(null, (success) => {
-				console.log("%c Line:84 🥑 success", "color:#ea7e5c", success);
 				this.keyboardH = success.height;
 				this.setPlaceholderH();
 			}, (error) => {

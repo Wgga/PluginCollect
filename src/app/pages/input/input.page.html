@@ -33,7 +33,7 @@
 				<i class="iconfont iconmorebtn" [ngClass]="{'showmore':editordata.showbtn}"></i>
 			</div>
 			<div class="footer_sendbtn">
-				<div class="publish_icon_box" [ngClass]="{'focus':send_content}" (click)="publish()">发送</div>
+				<div class="publish_icon_box" [ngClass]="{'focus':cansend}" (click)="publish()">发送</div>
 			</div>
 		</div>
 		<div class="footer_keyboard" [ngStyle]="{'height':placeholderH+'px'}"></div>
@@ -58,7 +58,7 @@
 				<div class="backspace" (click)="setinputval('backspace')">
 					<i class="iconfont iconbackspace"></i>
 				</div>
-				<div class="publish_icon_box" [ngClass]="{'focus':send_content}" (click)="publish()">发送</div>
+				<div class="publish_icon_box" [ngClass]="{'focus':cansend}" (click)="publish()">发送</div>
 			</div>
 		</div>
 	</div>
