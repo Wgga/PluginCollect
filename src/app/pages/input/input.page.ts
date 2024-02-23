@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { NavController, IonContent } from '@ionic/angular';
+import { Platform, NavController,IonContent } from '@ionic/angular';
+import { Keyboard, KeyboardResizeMode, KeyboardStyle } from '@ionic-native/keyboard/ngx';
 import { EditorService } from '../../services/editor-service/editor-service';
 
 @Component({
@@ -35,12 +36,17 @@ export class InputPage {
 		// {id: 4, icon: 'iconshopcart', text: '购物车'}
 	];
 	// 状态
+	mode: any = ["Ionic","None","Native","Body"];
+	style: any = ["Dark","Light"];
+	flag: boolean = false;
 	cansend: boolean = false;
 
 	constructor(
 		private navCtrl: NavController,
 		private cdr: ChangeDetectorRef,
 		private editors: EditorService,
+		private platform: Platform,
+		private keyboard: Keyboard,
 
 	) { }
 
@@ -84,16 +90,26 @@ export class InputPage {
 		// 获取编辑器数据
 		this.editordata = this.editors.getEditordata(this.classname);
 		// 初始化键盘高度
-		if ((window as any).Keyboard && typeof (window as any).Keyboard.openHeightProvider === 'function') {
-			(window as any).Keyboard.openHeightProvider(null, (success) => {
-				this.keyboardH = success.height;
+		if (this.platform.is('android')){
+			if ((window as any).Keyboard && typeof (window as any).Keyboard.openHeightProvider === 'function') {
+				(window as any).Keyboard.openHeightProvider(null, (success) => {
+					this.keyboardH = success.height;
+					this.setPlaceholderH();
+				}, (error) => {
+					console.log(JSON.stringify(error));
+				});
+			}
+		} else if(this.platform.is('ios')){
+			this.keyboard.onKeyboardWillShow().subscribe(data => {
+				this.keyboardH = data.keyboardHeight;
 				this.setPlaceholderH();
-			}, (error) => {
-				console.log(JSON.stringify(error));
+			});
+			this.keyboard.onKeyboardWillHide().subscribe(data => {
+				this.keyboardH = 0;
+				this.setPlaceholderH();
 			});
 		}
 	}
-
 	// 关闭表情/键盘弹窗
 	closepopup(ev) {
 		if (ev) ev.stopPropagation();
@@ -101,6 +117,30 @@ export class InputPage {
 		this.setPlaceholderH();
 	}
 
+	setResizeMode(type){
+		if(type == "None"){
+			this.keyboard.setResizeMode(KeyboardResizeMode.None);
+		}else if(type == "Native"){
+			this.keyboard.setResizeMode(KeyboardResizeMode.Native);
+		}else if(type == "Ionic"){
+			this.keyboard.setResizeMode(KeyboardResizeMode.Ionic);
+		}else if(type == "Body"){
+			this.keyboard.setResizeMode(KeyboardResizeMode.Body);
+		}
+	}
+
+	hideFormAccessoryBar(){
+		this.flag = !this.flag;
+		this.keyboard.hideFormAccessoryBar(this.flag);
+	}
+
+	setKeyboardStyle(type){
+		if(type == "Dark"){
+			this.keyboard.setKeyboardStyle(KeyboardStyle.Dark);
+		}else if(type == "Light"){
+			this.keyboard.setKeyboardStyle(KeyboardStyle.Light);
+		}
+	}
 	// 设置表情/键盘弹窗占位高度
 	setPlaceholderH() {
 		if (this.editordata.selheight && this.keyboardH == 0) {
@@ -152,8 +192,12 @@ export class InputPage {
 
 	// 页面销毁关闭键盘高度监听
 	ngOnDestroy() {
-		if ((window as any).Keyboard && typeof (window as any).Keyboard.closeHeightProvider === 'function') {
-			(window as any).Keyboard.closeHeightProvider();
+		if(this.platform.is('android')){
+			if ((window as any).Keyboard && typeof (window as any).Keyboard.closeHeightProvider === 'function') {
+				(window as any).Keyboard.closeHeightProvider();
+			}
+		}else if(this.platform.is('ios')){
+			this.keyboard.setResizeMode(KeyboardResizeMode.Native);
 		}
 	}
 }
