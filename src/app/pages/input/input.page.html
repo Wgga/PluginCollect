@@ -1,25 +1,31 @@
 <ion-header>
-	<div class="title_con">
-		<!-- 20211220:去除fixbtn类名即去除fixed样式，解决收起键盘页面留白 -->
-		<ion-back-button text="" defaultHref="/tabs/home" (click)="goBack()" class='iconfont back'></ion-back-button>
-		<div class="tit fontwg5">input</div>
-		<div class="more_func"></div>
-	</div>
+	<ion-toolbar>
+		<div class="title_con">
+			<!-- 20211220:去除fixbtn类名即去除fixed样式，解决收起键盘页面留白 -->
+			<ion-back-button text="" icon="arrow-round-back" defaultHref="/tabs/tab1" (click)="goBack()" class='iconfont back'></ion-back-button>
+			<div class="tit fontwg5">表情键盘</div>
+			<div class="more_func"></div>
+		</div>
+	</ion-toolbar>
 </ion-header>
 
-<ion-content #content (click)="closepopup($event)">
-	selheight: {{ editordata.selheight }}
-	placeholderH: {{ placeholderH }}
-	keyboardH: {{ keyboardH }}
+<ion-content #content (touchstart)="closepopup($event)">
+	<div class="text">
+		selheight: {{ editordata.selheight }}
+		placeholderH: {{ placeholderH }}
+		keyboardH: {{ keyboardH }}
+	</div>
 	<div *ngFor="let x of contentlist">
 		<div class="html_con">
 			<span class="bubble_arrow"></span>
 			<div class="bubble_content" [compilekefuhtml]="x.content"></div>
 		</div>
 	</div>
+	<div class="input"></div>
 </ion-content>
 
-<ion-footer align-title="left" class="bar-light bar-footer-gentie" resize-foot-bar keyboard-attach>
+<ion-footer align-title="left" class="bar-light bar-footer-gentie" resize-foot-bar keyboard-attach
+	[ngClass]="{'hidepaddingbtm': editordata.showemo || editordata.showbtn}">
 	<div class="footer_con">
 		<div class="textarea_footer new_textarea_footer">
 			<div class="footer_morebtn btn_left">

@@ -29,6 +29,9 @@ export class Tab1Page {
 			quality : 100
 		});
 	}
+	openAddress(){
+		this.router.navigate(['/address']);
+	}
 	goinput(){
 		this.router.navigate(['/input']);
 	}

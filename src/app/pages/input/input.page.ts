@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Platform, NavController,IonContent } from '@ionic/angular';
-import { Keyboard, KeyboardResizeMode, KeyboardStyle } from '@ionic-native/keyboard/ngx';
+import { Keyboard, KeyboardResizeMode } from '@ionic-native/keyboard/ngx';
 import { EditorService } from '../../services/editor-service/editor-service';
 
+declare var Quill: any;
 @Component({
 	selector: 'app-input',
 	templateUrl: './input.page.html',
@@ -13,7 +14,7 @@ export class InputPage {
 	@ViewChild(IonContent, { static: true }) content: IonContent;
 	@ViewChild("editor", { static: false }) editor;
 	classname = 'InputPage';
-	quill: any;    // Quill编辑器实例
+	quillcon: any;    // Quill编辑器实例
 	// 变量
 	send_content: string = ''; // 输入框内容
 	contentlist: any = []; // 内容列表
@@ -36,9 +37,6 @@ export class InputPage {
 		// {id: 4, icon: 'iconshopcart', text: '购物车'}
 	];
 	// 状态
-	mode: any = ["Ionic","None","Native","Body"];
-	style: any = ["Dark","Light"];
-	flag: boolean = false;
 	cansend: boolean = false;
 
 	constructor(
@@ -51,30 +49,31 @@ export class InputPage {
 	) { }
 
 	ionViewDidEnter() {
-		this.initEditor()
+		this.initEditor();
 	}
 
 	// 返回上一级页面
 	goBack() {
-		this.navCtrl.pop()
+		this.navCtrl.pop();
 	}
 
 	// 初始化编辑器
 	initEditor() {
+		if (!Quill) return;
 		// 初始化Quill实例
-		this.quill = new (window as any).Quill("#editor_con", {
-			placeholder: "请输入想咨询的问题"
+		this.quillcon = new Quill("#editor_con", {
+			placeholder: "请输入想咨询的问题",
 		})
 		// 点击编辑器区域，输入框聚焦改变各值状态
-		this.quill.root.addEventListener("click", (ev) => {
+		this.quillcon.root.addEventListener("click", () => {
 			this.focus("input");
 		})
-		this.quill.on("text-change", () => {
+		this.quillcon.on("text-change", () => {
 			setTimeout(()=>{
-				this.send_content = this.quill.getSemanticHTML();
-				if (this.quill.getLength() > 1 && !this.cansend){
+				this.send_content = this.quillcon.root.innerHTML;
+				if (this.quillcon.getLength() > 1 && !this.cansend){
 					this.cansend = true;
-				}else if(this.quill.getLength() == 1){
+				}else if(this.quillcon.getLength() == 1){
 					this.cansend = false;
 				}
 			},100)
@@ -85,7 +84,7 @@ export class InputPage {
 			btnlistlen: this.btnlist.length,
 			editorElement: this.editor['nativeElement'],
 			contentElement: this.content,
-			quill: this.quill
+			quill: this.quillcon
 		});
 		// 获取编辑器数据
 		this.editordata = this.editors.getEditordata(this.classname);
@@ -100,11 +99,13 @@ export class InputPage {
 				});
 			}
 		} else if(this.platform.is('ios')){
+			this.keyboard.setResizeMode(KeyboardResizeMode.None);
+			let envsabtm = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--envsabtm"))*0.6;
 			this.keyboard.onKeyboardWillShow().subscribe(data => {
-				this.keyboardH = data.keyboardHeight;
+				this.keyboardH = data.keyboardHeight - envsabtm;
 				this.setPlaceholderH();
 			});
-			this.keyboard.onKeyboardWillHide().subscribe(data => {
+			this.keyboard.onKeyboardWillHide().subscribe(() => {
 				this.keyboardH = 0;
 				this.setPlaceholderH();
 			});
@@ -117,30 +118,6 @@ export class InputPage {
 		this.setPlaceholderH();
 	}
 
-	setResizeMode(type){
-		if(type == "None"){
-			this.keyboard.setResizeMode(KeyboardResizeMode.None);
-		}else if(type == "Native"){
-			this.keyboard.setResizeMode(KeyboardResizeMode.Native);
-		}else if(type == "Ionic"){
-			this.keyboard.setResizeMode(KeyboardResizeMode.Ionic);
-		}else if(type == "Body"){
-			this.keyboard.setResizeMode(KeyboardResizeMode.Body);
-		}
-	}
-
-	hideFormAccessoryBar(){
-		this.flag = !this.flag;
-		this.keyboard.hideFormAccessoryBar(this.flag);
-	}
-
-	setKeyboardStyle(type){
-		if(type == "Dark"){
-			this.keyboard.setKeyboardStyle(KeyboardStyle.Dark);
-		}else if(type == "Light"){
-			this.keyboard.setKeyboardStyle(KeyboardStyle.Light);
-		}
-	}
 	// 设置表情/键盘弹窗占位高度
 	setPlaceholderH() {
 		if (this.editordata.selheight && this.keyboardH == 0) {
@@ -182,16 +159,17 @@ export class InputPage {
 
 	// 发送消息
 	publish() {
-		this.send_content = this.quill.getSemanticHTML();
+		this.send_content = this.quillcon.root.innerHTML;
 		this.contentlist.push({
 			content: this.send_content,
 			time: new Date().getTime()
 		})
-		this.quill.setText('');
+		this.quillcon.setText('');
 	}
 
 	// 页面销毁关闭键盘高度监听
 	ngOnDestroy() {
+		this.quillcon = null;
 		if(this.platform.is('android')){
 			if ((window as any).Keyboard && typeof (window as any).Keyboard.closeHeightProvider === 'function') {
 				(window as any).Keyboard.closeHeightProvider();

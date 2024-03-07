@@ -28,6 +28,37 @@
 // font.css
 @import "./assets/iconfont/iconfont.css";
 
+.title_con {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	background-color: #fff;
+	color: #4d4d4d;
+
+	.back {
+		width: 44px;
+		height: 44px;
+		font-size: 20px;
+	}
+
+	.more_func {
+		width: 44px;
+		height: 44px;
+	}
+
+	.tit {
+		height: 44px;
+		text-align: center;
+		line-height: 44px;
+		font-size: 16.5px;
+		width: 60%;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: pre;
+		font-weight: 500;
+	}
+}
+
 #editor_con .ql-editor {
 	overflow-y: scroll;
 	border-radius: 8px;
@@ -40,6 +71,14 @@
 	margin: 4px 0;
 	word-break: break-all;
 	min-height: 32px;
+	user-select: text !important;
+	-webkit-user-select: text !important;
+	-moz-user-select: text !important;
+	-ms-user-select: text !important;
+
+	p {
+		pointer-events: none;
+	}
 }
 
 #editor_con .ql-editor.ql-blank::before {
@@ -68,5 +107,86 @@
 		margin: 0;
 		min-height: 18px;
 		line-height: 18px;
+	}
+}
+
+.address_tip {
+	.alert-wrapper {
+		border-radius: 15px;
+		overflow: hidden;
+		background: #fff;
+	}
+
+	.alert-head {
+		padding: 0 20px;
+
+		h2.alert-title {
+			margin: 0;
+			padding: 23px 0 20px;
+			font-size: 16px;
+			font-weight: 500;
+			color: #4d4d4d;
+			text-align: center;
+		}
+	}
+
+	.alert-message {
+		padding: 0px 19px 16px 19px;
+		position: relative;
+		text-align: center;
+		z-index: 29;
+		margin: 0px;
+		font-size: 14px;
+		color: #616161;
+
+		>span:first-child {
+			display: block;
+			margin-bottom: 5px;
+		}
+
+		.protocol {
+			color: #5763bd;
+		}
+	}
+
+	.alert-message:after {
+		position: absolute;
+		bottom: 0;
+		right: -200%;
+		width: 300%;
+		height: 1px;
+		z-index: 1;
+		border-bottom: 1px solid #e0e0e0;
+		content: " ";
+		-webkit-transform-origin: 0 0;
+		-webkit-transform: scale(0.3333);
+		transform: scale(0.3333);
+		transform-origin: 0 0;
+	}
+
+	.alert-button-group {
+		padding: 0;
+
+		button {
+			border: transparent;
+
+			span {
+				color: #4d4d4d;
+				justify-content: center;
+			}
+
+			&:first-child {
+				border-right: 1px solid #f5f5f5;
+			}
+		}
+	}
+
+	.alert-button {
+		color: #2e2e2e;
+		flex: 1;
+		min-width: 0;
+		font-weight: normal;
+		font-size: 15px;
+		margin: 0;
 	}
 }

@@ -6,9 +6,11 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true">
 	<div class="app">
+		<div class="logo"></div>
 		<div id="deviceready">
+			<button type="button" class="btn btn-primary btn-block" (click)="openAddress()">选择地址</button>
 			<button type="button" class="btn btn-primary btn-block" (click)="imagepicker()">选择图片</button>
 			<button type="button" class="btn btn-primary btn-block" (click)="goinput()">输入框页面</button>
 			<button type="button" class="btn btn-primary btn-block" (click)="show()">弹窗显示</button>

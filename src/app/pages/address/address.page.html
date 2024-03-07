@@ -1,0 +1,66 @@
+<ion-header>
+	<ion-toolbar>
+		<div class="title_con">
+			<!-- 20211220:去除fixbtn类名即去除fixed样式，解决收起键盘页面留白 -->
+			<ion-back-button text="" icon="arrow-round-back" defaultHref="/tabs/tab1" (click)="goBack()"
+				class='iconfont back'></ion-back-button>
+			<div class="tit fontwg5">地址选择</div>
+			<div class="more_func"></div>
+		</div>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+	<div class="address_con" (click)="showaddresspopup()">
+		<span>选择地址</span>
+		<span class="address_text_con">
+			<span class="address_text">{{ selcitytext }}</span>
+			<ion-icon class="address_icon" name="arrow-forward"></ion-icon>
+		</span>
+	</div>
+</ion-content>
+
+<div class="address_popup_msk" [ngClass]="{'showpopup': showpopup, 'hide': setdisplay}" (click)="hideaddresspopup()">
+</div>
+<div class="address_popup" [ngClass]="{'showpopup': showpopup}">
+	<div class="popup_tit_con">
+		<div class="popup_tit">
+			<span>请选择所在地区</span>
+			<ion-icon class="close_icon" name="close" (click)="hideaddresspopup()"></ion-icon>
+		</div>
+		<div class="city_name_list" #citynamelist>
+			<span *ngFor="let x of seldata;index as i" class="city_name"
+				[ngClass]="{'active': swiper.activeIndex == i}"
+				(click)="toggle_page(i)">
+				{{ x.city_name }}
+			</span>
+			<span class="sel_line" [ngStyle]="{'left': offsetLeft + 'px'}"></span>
+		</div>
+	</div>
+	<div class="swiper">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide" *ngFor="let x of citydata;index as i">
+				<div class="elevator">
+					<div class="elevator_list">
+						<div *ngFor="let y of x.letters" class="elevator_list_item" id="letter{{y}}{{i}}">
+							<span class="item_letter">{{ y }}</span>
+							<div *ngFor="let item of x.items[y]" class="item_name" (click)="select_city(item)"
+								[ngClass]="{'active': seldata[i]?.city_code == item.city_code}">
+								<i class="iconfont iconselected"
+									*ngIf="seldata[i]?.city_code == item.city_code"></i>
+								<span>{{ item.city_name }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="elevator_bars">
+						<div class="elevator_bars_inner">
+							<div class="current_letter">{{ current_letter }}</div>
+							<span *ngFor="let letter of x.letters" [ngClass]="{'active': current_letter == letter}"
+								(click)="select_letter(letter,i)">{{ letter }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

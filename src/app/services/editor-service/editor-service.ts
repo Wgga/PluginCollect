@@ -37,6 +37,7 @@ export class EditorService {
 			showbtn: false,
 			showemo: false,
 			selheight: 0,
+			editorH: 0,
 			emolist: [],
 		};
 		// 获取表情列表
@@ -66,7 +67,7 @@ export class EditorService {
 		} else {
 			this.editordata[pageid].showbtn = false;
 			this.editordata[pageid].showemo = !this.editordata[pageid].showemo;
-			if (!this.editordata[pageid].showemo) this.params[pageid].editorElement.focus();
+			if (!this.editordata[pageid].showemo) this.params[pageid].quill.focus();
 			this.editordata[pageid].selheight = this.editordata[pageid].showemo ? (45 * Math.ceil(this.params[pageid].emolistlen / 8)) + 25 : 0;
 		}
 		this.editordata[pageid].selheight = this.editordata[pageid].selheight > 300 ? 300 : this.editordata[pageid].selheight;
