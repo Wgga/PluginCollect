@@ -17,8 +17,8 @@ export class AppComponent {
 	}
 	initializeApp() {
 		this.platform.ready().then((ev) => {
-			new VConsole();
-			this.statusbar.styleBlackTranslucent();
+			// new VConsole();
+			this.statusbar.styleDefault();
 			this.statusbar.overlaysWebView(true);
 		})
 	}
