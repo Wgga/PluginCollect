@@ -25,6 +25,10 @@ const routes: Routes = [
 	{
 		path: 'address',
 		loadChildren: () => import('./pages/address/address.module').then(m => m.AddressPageModule)
+	},
+	{
+		path: 'upimage',
+		loadChildren: () => import('./pages/upimage/upimage.module').then(m => m.UpimagePageModule)
 	}
 ];
 @NgModule({

@@ -59,6 +59,12 @@
 	}
 }
 
+.bg_content {
+	--background: #f7f8fa;
+	--padding-start: 17px;
+	--padding-end: 17px;
+}
+
 #editor_con .ql-editor {
 	overflow-y: scroll;
 	border-radius: 8px;
@@ -188,5 +194,70 @@
 		font-weight: normal;
 		font-size: 15px;
 		margin: 0;
+	}
+}
+
+.reply_ctr_user .alert-wrapper {
+	width: 100%;
+	max-width: 100%;
+	padding: 0px 10px;
+	opacity: 1;
+	background: transparent;
+	box-shadow: none;
+	position: fixed;
+	bottom: 0;
+	animation: reply_slide .15s ease-in-out 1;
+
+	.alert-head,
+	.alert-message {
+		padding: 0;
+	}
+
+	.alert-button-group {
+
+		button {
+			width: 100%;
+			height: 57px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: #fff;
+			border-top: none;
+			border-right: none;
+			color: #2e2e2e;
+			margin: 0;
+
+			span {
+				justify-content: center;
+			}
+		}
+
+		button:first-child {
+			border-top-left-radius: 12px;
+			border-top-right-radius: 12px;
+		}
+
+		button:nth-child(even) {
+			border-bottom-left-radius: 12px;
+			border-bottom-right-radius: 12px;
+			border-bottom: none;
+		}
+
+		button:last-child {
+			border-radius: 12px;
+			color: #5763bd;
+			font-weight: normal;
+			margin: 5px 0;
+		}
+	}
+}
+
+@keyframes reply_slide {
+	from {
+		bottom: -150px;
+	}
+
+	to {
+		bottom: 0;
 	}
 }

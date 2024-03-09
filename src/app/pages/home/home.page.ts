@@ -2,13 +2,21 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
-declare var WeiboSDK: any
+declare var WeiboSDK: any;
+declare var ImagePicker: any;
+declare var ThsToast: any;
 @Component({
 	selector: 'app-home',
 	templateUrl: 'home.page.html',
 	styleUrls: ['home.page.scss']
 })
 export class HomePage {
+	// 控件
+	classname: string = "HomePage";
+	// 参数
+	// 变量
+	// 数据
+	// 状态
 
 	btnlist: any = [
 		{ id: 1, text: "选择地址" },
@@ -29,16 +37,16 @@ export class HomePage {
 		private toastCtrl: ToastController,
 	) { }
 
-	clickbtn(x: any){
+	clickbtn(x: any) {
 		switch (x.id) {
 			case 1:
 				this.router.navigate(['/address']);
 				break;
 			case 2:
-				this.imagepicker();
+				this.router.navigate(['/upimage'], { queryParams: { src: x.text } });
 				break;
 			case 3:
-				this.showToast("正在开发中");
+				this.router.navigate(['/upimage'], { queryParams: { src: x.text } });
 				break;
 			case 4:
 				this.router.navigate(['/input']);
@@ -77,21 +85,6 @@ export class HomePage {
 			message: message
 		}).then((toast: any) => {
 			toast.present();
-		});
-	}
-
-	// 图片选择
-	imagepicker() {
-		if (!(window as any).ImagePicker) return;
-		(window as any).ImagePicker.getPictures((result) => {
-			this.showToast("成功" + JSON.stringify(result));
-		}, (err) => {
-			this.showToast("失败" + JSON.stringify(err));
-		}, {
-			maximumImagesCount: 100,
-			width: 1920,
-			height: 1440,
-			quality: 100
 		});
 	}
 
