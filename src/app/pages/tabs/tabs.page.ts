@@ -6,12 +6,12 @@ import { Component } from '@angular/core';
 	styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
-	// ¿Ø¼ş
+	// æ§ä»¶
 	classname: string = "TabsPage";
-	// ²ÎÊı
-	// ±äÁ¿
-	// Êı¾İ
-	// ×´Ì¬
+	// å‚æ•°
+	// å˜é‡
+	// æ•°æ®
+	// çŠ¶æ€
 	constructor() { }
 
 }

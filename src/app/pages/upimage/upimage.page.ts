@@ -31,9 +31,13 @@ export class UpimagePage {
 		})
 
 		this.events.subscribe('photo_upload' + this.classname, (dataurl) => {
-			this.imagelist.push({
-				base64data: dataurl
-			});
+			if (this.src == "多选图片") {
+				this.imagelist = dataurl;
+			} else {
+				this.imagelist.push({
+					base64data: dataurl
+				});
+			}
 			this.cdr.markForCheck();
 			this.cdr.detectChanges();
 		});
@@ -43,6 +47,10 @@ export class UpimagePage {
 		this.navCtrl.pop();
 	}
 	openalert() {
+		if (this.src == "多选图片") {
+			this.ups.multiselect(this.classname);
+			return;
+		}
 		this.alertCtrl.create({
 			cssClass: 'reply_ctr_user changeavatar',
 			buttons: [
@@ -63,6 +71,7 @@ export class UpimagePage {
 		});
 	}
 
+	// 按钮点击
 	buttonClicked(index) {
 		let params = {
 			index: index,

@@ -28,6 +28,7 @@
 // font.css
 @import "./assets/iconfont/iconfont.css";
 
+//公共头部样式
 .title_con {
 	display: flex;
 	align-items: flex-end;
@@ -59,12 +60,14 @@
 	}
 }
 
+//公共content背景
 .bg_content {
 	--background: #f7f8fa;
 	--padding-start: 17px;
 	--padding-end: 17px;
 }
 
+//表情键盘样式
 #editor_con .ql-editor {
 	overflow-y: scroll;
 	border-radius: 8px;
@@ -116,6 +119,7 @@
 	}
 }
 
+//城市提示弹窗
 .address_tip {
 	.alert-wrapper {
 		border-radius: 15px;
@@ -197,6 +201,7 @@
 	}
 }
 
+//选择图片弹窗样式
 .reply_ctr_user .alert-wrapper {
 	width: 100%;
 	max-width: 100%;
@@ -259,5 +264,45 @@
 
 	to {
 		bottom: 0;
+	}
+}
+
+//功能按钮样式
+.app {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin: 20px 0;
+
+	.logo {
+		background: url(/assets/img/logo.png) no-repeat center top;
+		width: 225px;
+		text-align: center;
+		padding: 180px 0px 0px 0px;
+	}
+
+	.btnlist {
+		margin-top: 20px;
+		display: grid;
+		grid-template-columns: repeat(3, 33.33%);
+	}
+
+	.btn {
+		position: relative;
+		overflow: hidden;
+		background-color: transparent;
+		border-color: #ddd;
+		color: #4d4d4d;
+		margin: 10px 10px;
+		padding: 10px 18px;
+
+		&:active,
+		&:focus {
+			box-shadow: none !important;
+		}
+	}
+
+	.customripple {
+		color: #501ace;
 	}
 }

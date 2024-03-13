@@ -94,8 +94,8 @@ export class InputPage {
 				(window as any).Keyboard.openHeightProvider(null, (success) => {
 					this.keyboardH = success.height;
 					this.setPlaceholderH();
-				}, (error) => {
-					console.log(JSON.stringify(error));
+				}, (error: any) => {
+					this.showToast(JSON.stringify(error));
 				});
 			}
 		} else if(this.platform.is('ios')){
@@ -111,6 +111,13 @@ export class InputPage {
 			});
 		}
 	}
+
+	// 显示弹窗
+	showToast(message: string) {
+		if (!(window as any).ThsToast) return;
+		(window as any).ThsToast.show(message);
+	}
+
 	// 关闭表情/键盘弹窗
 	closepopup(ev) {
 		if (ev) ev.stopPropagation();

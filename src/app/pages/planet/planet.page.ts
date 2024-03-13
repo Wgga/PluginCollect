@@ -6,12 +6,12 @@ import { Component } from '@angular/core';
 	styleUrls: ['planet.page.scss']
 })
 export class PlanetPage {
-	// ¿Ø¼ş
+	// æ§ä»¶
 	classname: string = "PlanetPage";
-	// ²ÎÊı
-	// ±äÁ¿
-	// Êı¾İ
-	// ×´Ì¬
+	// å‚æ•°
+	// å˜é‡
+	// æ•°æ®
+	// çŠ¶æ€
 
 	constructor() { }
 

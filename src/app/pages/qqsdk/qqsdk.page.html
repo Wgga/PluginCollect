@@ -1,0 +1,22 @@
+<ion-header>
+	<ion-toolbar>
+		<div class="title_con">
+			<!-- 20211220:去除fixbtn类名即去除fixed样式，解决收起键盘页面留白 -->
+			<ion-back-button text="" icon="arrow-round-back" defaultHref="/tabs/home" (click)="goBack()"
+				class='iconfont back'></ion-back-button>
+			<div class="tit fontwg5">QQSDK</div>
+			<div class="more_func"></div>
+		</div>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true">
+	<div class="app">
+		<div class="btnlist">
+			<div *ngFor="let x of btnlist" class="btn ion-activatable" (click)="clickbtn(x)">
+				<ion-ripple-effect class="customripple"></ion-ripple-effect>
+				<span>{{ x.text }}</span>
+			</div>
+		</div>
+	</div>
+</ion-content>

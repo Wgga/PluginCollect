@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
 	selector: 'app-person',
@@ -6,13 +7,31 @@ import { Component } from '@angular/core';
 	styleUrls: ['person.page.scss']
 })
 export class PersonPage {
-	// ¿Ø¼ş
+	// æ§ä»¶
 	classname: string = "PersonPage";
-	// ²ÎÊı
-	// ±äÁ¿
-	// Êı¾İ
-	// ×´Ì¬
+	// å‚æ•°
+	// å˜é‡
+	// æ•°æ®
+	btnlist: any = [
+		{ id: 1, text: "å¾®åš" },
+		{ id: 2, text: "QQ" },
+	];
+	// çŠ¶æ€
 
-	constructor() { }
+	constructor(
+		private router: Router,
+	) { }
 
+	clickbtn(x: any) {
+		switch (x.id) {
+			case 1:
+				this.router.navigate(['/wbsdk']);
+				break;
+			case 2:
+				this.router.navigate(['/qqsdk']);
+				break;
+			default:
+				break;
+		}
+	}
 }

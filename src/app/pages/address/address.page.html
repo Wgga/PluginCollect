@@ -56,8 +56,8 @@
 					</div>
 					<div class="elevator_bars">
 						<div class="elevator_bars_inner">
-							<div class="current_letter">{{ current_letter }}</div>
-							<span *ngFor="let letter of x.letters" [ngClass]="{'active': current_letter == letter}"
+							<div class="current_letter">{{ current_letter[current_page] }}</div>
+							<span *ngFor="let letter of x.letters" [ngClass]="{'active': current_letter[current_page] == letter}"
 								(click)="select_letter(letter,i)">{{ letter }}</span>
 						</div>
 					</div>

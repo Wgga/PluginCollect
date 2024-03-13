@@ -6,5 +6,14 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true">
+	<div class="app">
+		<div class="logo"></div>
+		<div class="btnlist">
+			<div *ngFor="let x of btnlist" class="btn ion-activatable" (click)="clickbtn(x)">
+				<ion-ripple-effect class="customripple"></ion-ripple-effect>
+				<span>{{ x.text }}SDK</span>
+			</div>
+		</div>
+	</div>
 </ion-content>

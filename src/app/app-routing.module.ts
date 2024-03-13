@@ -29,6 +29,14 @@ const routes: Routes = [
 	{
 		path: 'upimage',
 		loadChildren: () => import('./pages/upimage/upimage.module').then(m => m.UpimagePageModule)
+	},
+	{
+		path: 'wbsdk',
+		loadChildren: () => import('./pages/wbsdk/wbsdk.module').then(m => m.WbSdkPageModule)
+	},
+	{
+		path: 'qqsdk',
+		loadChildren: () => import('./pages/qqsdk/qqsdk.module').then(m => m.QQSdkPageModule)
 	}
 ];
 @NgModule({

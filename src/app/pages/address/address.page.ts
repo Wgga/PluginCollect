@@ -18,13 +18,15 @@ export class AddressPage {
 	loop: number = 0;
 	maxloop: number = 50;
 	// 变量
-	current_letter: string = '';
 	current_page: number = 0;
 	offsetLeft: number = 20;
 	selcitytext: string = '选择地址';
 	// 数据
 	seldata: any[] = [];
 	citydata: any[] = [];
+	floorT: any[] = [];
+	floorH: any[] = [];
+	current_letter: any[] = [];
 	// 状态
 	showpopup: boolean = false;
 	setdisplay: boolean = true;
@@ -68,6 +70,7 @@ export class AddressPage {
 	showaddresspopup() {
 		this.setdisplay = false;
 		setTimeout(() => { this.showpopup = true; }, 100);
+		this.getfloordata();
 	}
 
 	// 隐藏选择地址弹出框
@@ -76,24 +79,43 @@ export class AddressPage {
 		setTimeout(() => { this.setdisplay = true; }, 300);
 	}
 
+	getfloordata() {
+		let floors = document.querySelectorAll(`#elevator${this.current_page} .elevator_list_item`);
+		floors.forEach((item: any) => {
+			this.floorT.push(item.offsetTop)
+			this.floorH.push(item.offsetHeight)
+		})
+	}
+
+	/* scroll(ev){
+		let target = ev.target || ev.srcElement,
+			scrollT = target.scrollTop,
+			floors = document.querySelectorAll(`#elevator${this.current_page} .elevator_list_item`);
+		floors.forEach((item: any, index: number)=>{
+			if (scrollT >= this.floorT[index] && scrollT < this.floorT[index] + this.floorH[index]){
+				if(this.current_letter[this.current_page] !== item.id.replace("letter","").replace(this.current_page, ""))
+					this.current_letter[this.current_page] = item.id.replace("letter","").replace(this.current_page, "");
+			}
+		})
+	} */
+
 	// 获取城市列表
 	getcitylist(params: any) {
 		return new Promise((resolve, reject) => {
-			this.http.post("http://192.168.2.54/app/city.php", params)
-			.subscribe((resp_data: any) => {
+			this.http.post("http://192.168.2.54/app/city.php", params).subscribe((resp_data: any) => {
 				resolve(resp_data);
 			});
 		})
 	}
 
 	// 设置城市列表
-	setcitydata(resp_data: any, index: number){
+	setcitydata(resp_data: any, index: number) {
 		if (resp_data.msg == "OK") {
-			if(resp_data.letters.length > 0){
+			if (resp_data.letters.length > 0) {
 				this.citydata[index] = resp_data;
-				this.current_letter = resp_data.letters[0];
+				this.current_letter[this.current_page] = resp_data.letters[0];
 				this.seldata.push({ city_code: 0, city_name: '请选择' });
-			}else{
+			} else {
 				this.current_page = this.current_page - 1;
 				this.selected_city();
 				return;
@@ -111,7 +133,7 @@ export class AddressPage {
 
 	// 点击字母跳转对应位置
 	select_letter(letter: string, index: number) {
-		this.current_letter = letter;
+		this.current_letter[this.current_page] = letter;
 		this.scrolltoid(`letter${letter}${index}`);
 	}
 
@@ -130,7 +152,7 @@ export class AddressPage {
 		if (this.seldata[this.current_page].city_code != item.city_code) {
 			const spliceIndex = this.current_page + 1;
 			this.seldata.splice(spliceIndex, this.seldata.length - spliceIndex);
-		}else {
+		} else {
 			return;
 		}
 		this.seldata[this.current_page] = item;
@@ -147,7 +169,7 @@ export class AddressPage {
 	}
 
 	// 城市选择完成
-	selected_city(){
+	selected_city() {
 		this.hideaddresspopup();
 		this.selcitytext = this.seldata.map(item => item["city_name"] !== "暂不选择" ? item["city_name"] : "").join("");
 	}

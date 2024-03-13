@@ -30,6 +30,7 @@
 		"@ionic/angular": "^6.1.9",
 		"@ionic/cordova-builders": "^8.0.0",
 		"cordova-android": "^10.1.2",
+		"cordova-ios": "^5.1.1",
 		"cordova-plugin-device": "^2.0.2",
 		"cordova-plugin-ionic-webview": "^5.0.0",
 		"cordova-plugin-splashscreen": "^5.0.2",
@@ -57,6 +58,9 @@
 		"cordova-plugin-camera": "^6.0.0",
 		"cordova-plugin-file": "^7.0.0",
 		"cordova-plugin-ionic-keyboard": "github:Wgga/cordova-plugin-ionic-keyboard",
+		"cordova-plugin-pictureselector": "github:Wgga/cordova-plugin-pictureselector",
+		"cordova-plugin-qqsdk": "github:Wgga/cordova-plugin-qqsdk",
+		"cordova-plugin-scan": "github:Wgga/cordova-plugin-scan",
 		"cordova-plugin-statusbar": "github:Wgga/cordova-plugin-statusbar",
 		"cordova-plugin-ucrop": "github:Wgga/cordova-plugin-ucrop",
 		"cordova-plugin-weibosdk": "github:Wgga/cordova-plugin-weibosdk",
@@ -93,10 +97,18 @@
 				"ANDROIDX_WEBKIT_VERSION": "1.4.0"
 			},
 			"cordova-plugin-statusbar": {},
-			"cordova-plugin-ucrop": {}
+			"cordova-plugin-ucrop": {},
+			"cordova-plugin-scan": {
+				"CAMERA_USAGE_DESCRIPTION": "使用相机扫码"
+			},
+			"cordova-plugin-pictureselector": {},
+			"cordova-plugin-qqsdk": {
+				"QQ_APP_ID": "1112254617"
+			}
 		},
 		"platforms": [
-			"android"
+			"android",
+			"ios"
 		]
 	}
 }

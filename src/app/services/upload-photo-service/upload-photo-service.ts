@@ -6,8 +6,8 @@ import { Platform, Events, AlertController, ToastController } from "@ionic/angul
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
+// import pLimit from 'p-limit';
 
-declare var ucrop: any;
 /*
   Generated class for the UploadPhotoService provider.
 
@@ -27,6 +27,7 @@ export class UploadPhotoService {
 		src: "",
 		iscancrop: false
 	}
+	public imagelist: any[] = [];
 	public isandroid: boolean = false;
 	public isios: boolean = false;
 
@@ -75,7 +76,7 @@ export class UploadPhotoService {
 					isforbidCropGifWebp: true,
 					isfreeStyleCropEnabled: true,
 				};
-				ucrop.cropImage((path) => {
+				(window as any).ucrop.cropImage((path) => {
 					this.uploadpic(path);
 				}, (err) => {
 					this.alertCtrl.create({ header: '请注意', cssClass: 'address_tip', message: JSON.stringify(err), buttons: ['确定'] }).then((alert) => { alert.present() });
@@ -86,6 +87,57 @@ export class UploadPhotoService {
 		}, (err) => {
 			this.alertCtrl.create({ header: '请注意', cssClass: 'address_tip', message: JSON.stringify(err), buttons: ['确定'] }).then((alert) => { alert.present() });
 		})
+	}
+
+	// 多选图片
+	multiselect(classname: string) {
+		let options = {
+			isMaxSelectMask: true,
+			isShowCamera: false,
+			isCompress: false,
+			isSlideSelect: true,
+			maxSelectNum: 9,
+			ThumbnailQuality: 90,
+		};
+		(window as any).pictureselector.getPictures((success) => {
+			this.handleImage(success.images, classname);
+		}, (error: any) => {
+			this.showToast(JSON.stringify(error));
+		}, options);
+	}
+
+	async handleImage(images: any[], classname: string) {
+		if (images && images.length > 0) {
+			// const limit = pLimit(3);
+			const promises: any = [];
+			for (let img of images) {
+				if (img.uri) {
+					promises.push(this.reloveFile(img));
+				}
+			}
+			const result = await Promise.all(promises);
+			this.events.publish('photo_upload' + classname, this.imagelist);
+		}
+	}
+
+	async reloveFile(img: any) {
+		let fileName = img.uri.split('/').pop(),
+			path = img.uri.replace(fileName, ''),
+			pos = fileName.indexOf('?');
+		if (pos > 0)
+			fileName = fileName.substr(0, pos);
+		const [Base64] = await Promise.all([
+			this.file.readAsDataURL(path, fileName)
+		])
+		this.imagelist.push({
+			base64data: Base64
+		});
+	}
+
+	// 显示弹窗
+	showToast(message: string) {
+		if (!(window as any).ThsToast) return;
+		(window as any).ThsToast.show(message);
 	}
 
 	//虽然选的是DATA_URL，但是小米手机出来的结果可能是文件路径

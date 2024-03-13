@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 
-declare var WeiboSDK: any;
-declare var ImagePicker: any;
-declare var ThsToast: any;
+// declare var ImagePicker: any;
 @Component({
 	selector: 'app-home',
 	templateUrl: 'home.page.html',
@@ -16,25 +13,19 @@ export class HomePage {
 	// 参数
 	// 变量
 	// 数据
-	// 状态
-
 	btnlist: any = [
 		{ id: 1, text: "选择地址" },
-		{ id: 2, text: "选择图片" },
-		{ id: 3, text: "裁剪图片" },
-		{ id: 4, text: "表情键盘" },
-		{ id: 5, text: "显示弹窗" },
-		{ id: 6, text: "是否安装" },
-		{ id: 7, text: "微博登录" },
-		{ id: 8, text: "微博登出" },
-		{ id: 9, text: "网页分享" },
-		{ id: 10, text: "图片分享" },
-		{ id: 11, text: "文字分享" },
+		{ id: 2, text: "多选图片" },
+		{ id: 3, text: "选择图片" },
+		{ id: 4, text: "裁剪图片" },
+		{ id: 5, text: "表情键盘" },
+		{ id: 6, text: "扫码页面" },
+		{ id: 7, text: "显示弹窗" },
 	];
+	// 状态
 
 	constructor(
 		private router: Router,
-		private toastCtrl: ToastController,
 	) { }
 
 	clickbtn(x: any) {
@@ -49,111 +40,35 @@ export class HomePage {
 				this.router.navigate(['/upimage'], { queryParams: { src: x.text } });
 				break;
 			case 4:
-				this.router.navigate(['/input']);
+				this.router.navigate(['/upimage'], { queryParams: { src: x.text } });
 				break;
 			case 5:
-				this.showToast("Hello World");
+				this.router.navigate(['/input']);
 				break;
 			case 6:
-				this.checkClientInstalled();
+				this.startScan();
 				break;
 			case 7:
-				this.ssoLogin();
-				break;
-			case 8:
-				this.ssoLogout();
-				break;
-			case 9:
-				this.shareToWeibo();
-				break;
-			case 10:
-				this.shareImageToWeibo();
-				break;
-			case 11:
-				this.shareTextToWeibo();
+				this.showToast("Hello World");
 				break;
 			default:
 				break;
 		}
 	}
 
+	// 扫码
+	startScan(){
+		if(!(window as any).scan) return;
+		(window as any).scan.recognize((success: any)=>{
+			this.showToast("扫码成功" + JSON.stringify(success));
+		},(error: any)=>{
+			this.showToast("扫码失败" + JSON.stringify(error));
+		});
+	}
+
 	// 显示弹窗
 	showToast(message: string) {
-		this.toastCtrl.create({
-			duration: 1500,
-			position: 'top',
-			message: message
-		}).then((toast: any) => {
-			toast.present();
-		});
-	}
-
-	// 检查微博客户端是否安装
-	checkClientInstalled() {
-		if (!WeiboSDK) return;
-		WeiboSDK.checkClientInstalled((success: any) => {
-			this.showToast("微博已安装" + JSON.stringify(success))
-		}, (error: any) => {
-			this.showToast("微博未安装" + JSON.stringify(error))
-		});
-	}
-
-	// 微博登陆
-	ssoLogin() {
-		if (!WeiboSDK) return;
-		WeiboSDK.ssoLogin((success: any) => {
-			this.showToast("微博登录成功" + JSON.stringify(success))
-		}, (error: any) => {
-			this.showToast("微博登录失败" + JSON.stringify(error))
-		});
-	}
-
-	// 微博登出
-	ssoLogout() {
-		if (!WeiboSDK) return;
-		WeiboSDK.logout((success: any) => {
-			this.showToast("微博登录退出成功" + JSON.stringify(success))
-		}, (error: any) => {
-			this.showToast("微博登录退出失败" + JSON.stringify(error))
-		});
-	}
-
-	// 网页分享
-	shareToWeibo() {
-		if (!WeiboSDK) return;
-		let args: any = {};
-		args.url = 'https://cordova.apache.org/';
-		args.title = 'Apache Cordova';
-		args.description = 'This is a Cordova Plugin';
-		args.image = 'https://cordova.apache.org/static/img/pluggy.png';
-		WeiboSDK.shareToWeibo((success: any) => {
-			this.showToast("分享网页成功" + JSON.stringify(success))
-		}, (error: any) => {
-			this.showToast("分享网页失败" + JSON.stringify(error))
-		}, args);
-	}
-
-	// 图片分享
-	shareImageToWeibo() {
-		if (!WeiboSDK) return;
-		let args: any = {};
-		args.image = 'https://cordova.apache.org/static/img/pluggy.png';
-		WeiboSDK.shareImageToWeibo((success: any) => {
-			this.showToast("分享图片成功" + JSON.stringify(success));
-		}, (error: any) => {
-			this.showToast("分享图片失败" + JSON.stringify(error));
-		}, args);
-	}
-
-	// 文字分享
-	shareTextToWeibo() {
-		if (!WeiboSDK) return;
-		let args: any = {};
-		args.text = 'This is a Cordova Plugin';
-		WeiboSDK.shareTextToWeibo((success: any) => {
-			this.showToast("分享文本成功" + JSON.stringify(success));
-		}, (error: any) => {
-			this.showToast("分享文本失败" + JSON.stringify(error));
-		}, args);
+		if (!(window as any).ThsToast) return;
+		(window as any).ThsToast.show(message);
 	}
 }
